@@ -2,7 +2,6 @@
 
 Personal portfolio site for Pavan Kumar Varanasi, an AI Engineer building AI agents, voice AI systems, and LLM-powered products.
 
-Built on top of the [Portfolio-latest](https://github.com/ShivaBhattacharjee/Portfolio-latest) template by Shiva Bhattacharjee (MIT licensed), with content, metadata, and assets replaced with Pavan's own data.
 
 ## Installation
 
