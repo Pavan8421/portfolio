@@ -144,15 +144,55 @@ export const experiences = [
         { text: " and Azure head-pose models." },
       ],
       [
-        { text: "Implemented " },
-        { text: "VAPI web calling", bold: true },
+        { text: "Implemented a " },
+        { text: "queue-based calling system", bold: true },
+        { text: " for " },
+        { text: "LiveKit-powered voice agents", bold: true },
         {
-          text: " with a queue system to handle concurrency voice call limits.",
+          text: " to manage call concurrency limits and ensure reliable call execution at scale.",
         },
       ],
       [
+        { text: "Developed and configured " },
+        { text: "multilingual voice agents", bold: true },
         {
-          text: "Developed multilingual voice assistants with strong performance and cost efficiency.",
+          text: " for diverse business use cases, optimizing language-specific prompts and speech configurations for performance and cost efficiency.",
+        },
+      ],
+      [
+        { text: "Integrated automated testing of LiveKit-based voice agents using " },
+        { text: "LiveKit Agent Simulations", bold: true },
+        {
+          text: ", designing positive and negative test scenarios to validate agent behaviour, response accuracy, and edge-case handling.",
+        },
+      ],
+      [
+        { text: "Built and scaled " },
+        { text: "voice AI agents", bold: true },
+        { text: " across multiple business use cases, handling an average of " },
+        { text: "10,000+ conversation minutes per day", bold: true },
+        { text: " while maintaining " },
+        { text: "P95 latency of 2 seconds", bold: true },
+        { text: "." },
+      ],
+      [
+        { text: "Improved speech recognition and synthesis quality by implementing " },
+        { text: "context-aware STT prompting", bold: true },
+        { text: " and " },
+        { text: "TTS pronunciation dictionaries", bold: true },
+        {
+          text: ", enhancing recognition of domain-specific terminology and ensuring accurate pronunciation of names, technical terms, and custom vocabulary.",
+        },
+      ],
+      [
+        { text: "Developed a visual, workflow-based " },
+        { text: "automation module", bold: true },
+        { text: " similar to " },
+        { text: "n8n", bold: true },
+        { text: " and " },
+        { text: "Zapier", bold: true },
+        {
+          text: ", enabling recruiters to configure hiring stages using drag-and-drop nodes, define conditional rules, and automate recruitment workflows based on predefined conditions.",
         },
       ],
       [

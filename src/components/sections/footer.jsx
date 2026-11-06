@@ -6,6 +6,62 @@ import CloudSunIcon from "@/components/icons/cloud-sun";
 import SeikoWatchModal from "@/components/watch-modal";
 import IconTelescopeTripod from "@/components/icons/telescope-tripod";
 
+const VISIT_COUNTED_KEY = "pv_counted";
+const VISIT_COUNT_KEY = "pv_count";
+
+let visitorCountRequest = null;
+
+function readCachedCount() {
+  try {
+    const cached = Number(localStorage.getItem(VISIT_COUNT_KEY));
+    return Number.isFinite(cached) ? cached : null;
+  } catch {
+    return null;
+  }
+}
+
+function rememberCount(count, increment) {
+  const cached = readCachedCount();
+  let next = count;
+  if (cached != null) {
+    next = Math.max(cached, count);
+    // CounterAPI can return the pre-increment value while the write is buffered.
+    if (increment && next === cached) next = cached + 1;
+  }
+  try {
+    localStorage.setItem(VISIT_COUNT_KEY, String(next));
+  } catch {
+    // Ignore storage failures and still show the fetched count.
+  }
+  return next;
+}
+
+function loadVisitorCount() {
+  if (visitorCountRequest) return visitorCountRequest;
+
+  let increment = false;
+  try {
+    increment = sessionStorage.getItem(VISIT_COUNTED_KEY) !== "1";
+    if (increment) sessionStorage.setItem(VISIT_COUNTED_KEY, "1");
+  } catch {
+    increment = false;
+  }
+
+  visitorCountRequest = fetch("/api/visitors", {
+    method: increment ? "POST" : "GET",
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.count === null || data.count === undefined) return null;
+      return rememberCount(Number(data.count), increment);
+    })
+    .catch(() => null);
+
+  return visitorCountRequest;
+}
+
 const Footer = () => {
   const [time, setTime] = useState(null);
   const [location, setLocation] = useState(null);
@@ -19,20 +75,20 @@ const Footer = () => {
   }, []);
 
   useEffect(() => {
-    const cached = localStorage.getItem("pv_count");
-    if (cached) {
-      setVisitors(Number(cached).toLocaleString());
+    let active = true;
+    const cached = readCachedCount();
+    if (cached !== null) {
+      setVisitors(cached.toLocaleString());
     }
 
-    fetch("/api/visitors")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.count !== null && data.count !== undefined) {
-          localStorage.setItem("pv_count", data.count);
-          setVisitors(Number(data.count).toLocaleString());
-        }
-      })
-      .catch(() => {});
+    loadVisitorCount().then((count) => {
+      if (!active || count === null) return;
+      setVisitors(count.toLocaleString());
+    });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
